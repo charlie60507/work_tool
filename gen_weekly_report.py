@@ -3,8 +3,10 @@ import requests
 import base64
 import os
 from dotenv import load_dotenv
-from lib.slack_manager import slack_manager
-from lib.notion_manager import notion_manager
+import lib.slack_manager as slack_manager
+import lib.notion_manager as notion_manager
+import lib.report_manager as report_manager
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,7 +20,21 @@ SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
 JIRA_URL = os.getenv("JIRA_URL")
 
 def main():
-    None # TODO
+    # get current sprint name
+    sprint_name = notion_manager.get_sprint(JIRA_URL, JIRA_USER_NAME, JIRA_API_TOKEN)
+
+    # sync status from Jira and update notion
+    notion_manager.update(JIRA_URL, JIRA_USER_NAME, DATABASE_ID, JIRA_API_TOKEN, NOTION_TOKEN)
+
+    # get work records and send to Slack
+    work_record = notion_manager.get_notion_work_record(sprint_name, DATABASE_ID, NOTION_TOKEN)
+    
+    # get weekly report
+    report = report_manager.get_weekly_report(work_record)
+
+    # send message to slack
+    slack_manager.send_to_slack(SLACK_WEBHOOK_URL, report)
+
 
 if __name__ == "__main__":
     main()

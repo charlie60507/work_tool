@@ -77,16 +77,17 @@ def _format_record(work_record):
         jira_id = record["properties"]["Jira Id"]["rich_text"][0]["text"]["content"]
         title = record["properties"]["Title"]["title"][0]["text"]["content"]
         status = record["properties"]["Status"]["select"]["name"]
-        url = f"https://gogotech.atlassian.net/browse/{jira_id}"
-        formatted_work_records.append({"jiraId": jira_id, "title": title, "status": status, "jiraUrl": url})
+        jira_url = f"https://gogotech.atlassian.net/browse/{jira_id}"
 
-    # Sort by status
+        formatted_work_records.append({
+            "jiraId": jira_id,
+            "title": title,
+            "status": status,
+            "jiraUrl": jira_url
+        })
+
     formatted_work_records.sort(key=lambda x: x["status"])
-
-    return "\n".join(
-        f"- <{record['jiraUrl']}|{record['jiraId']}> {record['title']} `{record['status'].split('. ')[-1]}`"
-        for record in formatted_work_records
-    )
+    return formatted_work_records
 
 def _check_and_insert_notion_page(notion_query_url, summary, key, status, sprint, database_id, token):
     headers = request_utils.make_headers(token)

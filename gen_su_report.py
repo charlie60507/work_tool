@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 import lib.slack_manager as slack_manager
 import lib.notion_manager as notion_manager
+import lib.report_manager as report_manager
 
 # Load environment variables from .env file
 load_dotenv()
@@ -26,9 +27,11 @@ def main():
 
     # get work records and send to Slack
     work_record = notion_manager.get_notion_work_record(sprint_name, DATABASE_ID, NOTION_TOKEN)
+
+    report = report_manager.get_su_report(work_record)
     
     # send message to slack
-    slack_manager.send_to_slack(SLACK_WEBHOOK_URL, work_record)
+    slack_manager.send_to_slack(SLACK_WEBHOOK_URL, report)
 
 if __name__ == "__main__":
     main()
