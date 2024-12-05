@@ -1,0 +1,1 @@
+worker: python3 gen_su_report.py
