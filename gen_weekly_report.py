@@ -2,6 +2,7 @@
 import requests
 import base64
 import os
+from datetime import datetime
 from dotenv import load_dotenv
 import lib.slack_manager as slack_manager
 import lib.notion_manager as notion_manager
@@ -20,7 +21,12 @@ SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
 JIRA_URL = os.getenv("JIRA_URL")
 
 def main():
-    # get current sprint name
+
+    # only run on friday
+    if datetime.utcnow().strftime('%A') != 'Friday':
+        print("Not Friday. Task skipped.")
+        return
+
     sprint_name = notion_manager.get_sprint(JIRA_URL, JIRA_USER_NAME, JIRA_API_TOKEN)
 
     # sync status from Jira and update notion
