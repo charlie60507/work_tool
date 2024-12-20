@@ -1,6 +1,6 @@
 
 ON_GOING_STATUS = {"1. Open", "3. In Progress", "4. Code Review", "5. Reopened"}
-COMPLETED_STATUS = {"6. Ready for QA", "7. Closed"}
+COMPLETED_STATUS = {"5. Ready for QA", "7. Closed"}
 
 def get_weekly_report(records):
     on_going_records = []
