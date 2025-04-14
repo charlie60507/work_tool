@@ -1,4 +1,3 @@
-
 import requests
 import base64
 import os
@@ -19,9 +18,11 @@ DATABASE_ID = os.getenv("DATABASE_ID")
 JIRA_USER_NAME = os.getenv("JIRA_USER_NAME")
 SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
 JIRA_URL = os.getenv("JIRA_URL")
+DATABASE_ID = os.getenv("DATABASE_ID")
+TYPES_DATABASE_ID = os.getenv("TYPES_DATABASE_ID")
+
 
 def main():
-
     # only run on friday
     if datetime.utcnow().strftime('%A') != 'Friday':
         print("Not Friday. Task skipped.")
@@ -30,7 +31,7 @@ def main():
     sprint_name = notion_manager.get_sprint(JIRA_URL, JIRA_USER_NAME, JIRA_API_TOKEN)
 
     # sync status from Jira and update notion
-    notion_manager.update(JIRA_URL, JIRA_USER_NAME, DATABASE_ID, JIRA_API_TOKEN, NOTION_TOKEN)
+    notion_manager.update(JIRA_URL, JIRA_USER_NAME, DATABASE_ID, JIRA_API_TOKEN, NOTION_TOKEN, TYPES_DATABASE_ID)
 
     # get work records and send to Slack
     work_record = notion_manager.get_notion_work_record(sprint_name, DATABASE_ID, NOTION_TOKEN)
