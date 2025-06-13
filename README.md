@@ -12,6 +12,8 @@ A Python-based automation tool that integrates Jira, Notion, and Slack to genera
 
 ## Architecture
 
+![Screenshot 2025-06-14 at 1 07 52 AM](https://github.com/user-attachments/assets/d9321aec-17ce-439d-9728-5be64700ef2f)
+
 ## Project Structure
 
 ```
@@ -151,6 +153,7 @@ heroku ps:scale worker_weekly=1
 
 ## Demo
 
+https://github.com/user-attachments/assets/24887145-79e3-4762-b6c4-d7676e3ff27d
 
 ## License
 
